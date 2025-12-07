@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LoopRides — 10-Year Membership</title>
+
+  <meta name="description" content="LoopRides — 10-year vehicle membership. Flexible swaps across Pro, Premium, Daily, and Electric categories. 100-hour bonus for premium vehicles.">
+
+  <style>
+    /* -------------------------
+       THEME / LAYOUT VARIABLES
+       ------------------------- */
+    :root{
+      --bg-1: #03071e;       /* deep navy/black */
+      --bg-2: #06102a;       /* slightly lighter */
+      --card: #071330;
+      --muted: #9aa7c4;
+      --glass: rgba(255,255,255,0.03);
+      --accent: #00d3ff;     /* electric cyan */
+      --accent-2: #7cf29a;   /* soft green */
+      --warm: #ffb86b;       /* warm highlight */
+      --radius: 14px;
+      --glass-2: rgba(255,255,255,0.02);
+      --maxw: 1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      color: #e6f0ff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:32px 20px;
+    }
+
+    /* Center container */
+    .site {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      display: grid;
+      gap:28px;
+    }
+
+    /* Header with logo */
+    header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      position: sticky;
+      top: 18px;
+      z-index: 40;
+      backdrop-filter: blur(6px);
+    }
+    .brand {
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .brand .title {
+      font-weight:800;
+      letter-spacing:0.6px;
+      font-size:20px;
+    }
+    .brand .tag {
+      font-size:12px;
+      color:var(--muted);
+    }
+    nav { display:flex; gap:12px; align-items:center; }
+    .btn {
+      background: linear-gradient(90deg, rgba(0,211,255,0.12), rgba(124,242,154,0.06));
+      color: var(--accent);
+      border: 1px solid rgba(0,211,255,0.08);
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      transition: transform 180ms ease, box-shadow 180ms;
+    }
+    .btn:hover{ transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+    /* HERO */
+    .hero {
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+    }
+    @media (max-width:980px){ .hero { grid-template-columns: 1fr; } .hero .visual { order:-1 } }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      padding:28px;
+      border-radius:16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+    .h-title {
+      font-size:38px;
+      margin:0 0 6px 0;
+      line-height:1.05;
+      letter-spacing: -0.6px;
+    }
+    .h-sub {
+      color:var(--muted);
+      margin:0 0 18px 0;
+      font-size:15px;
+      max-width:640px;
+    }
+    .cta-row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .cta-primary {
+      background: linear-gradient(90deg, var(--accent), #66c0ff);
+      color: #00121a;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:800;
+      border: none;
+      cursor:pointer;
+      box-shadow: 0 12px 30px rgba(0,211,255,0.08);
+    }
+    .cta-ghost {
+      background:transparent;
+      color:var(--muted);
+      border: 1px solid rgba(255,255,255,0.03);
+      padding:12px 14px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    .hero-feats {
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .feat {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      padding:10px 12px;
+      border-radius:10px;
+      font-weight:700;
+      color:var(--muted);
+      font-size:13px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .dot { width:10px; height:10px; border-radius:4px; background:var(--accent); box-shadow:0 6px 18px rgba(0,211,255,0.08); }
+
+    /* Visual (images + infinity animation) */
+    .visual {
+      position:relative;
+      border-radius:14px;
+      overflow:hidden;
+      height:100%;
+      min-height:320px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px;
+    }
+    .infinite-bg {
+      position:absolute;
+      inset:0;
+      opacity:0.06;
+      pointer-events:none;
+      mix-blend-mode: screen;
+    }
+    .visual .images {
+      width:100%;
+      border-radius:12px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .visual img{
+      width:100%;
+      height:150px;
+      object-fit:cover;
+      border-radius:10px;
+      display:block;
+    }
+
+    /* SECTIONS */
+    section h2 {
+      margin:0 0 10px 0;
+      font-size:22px;
+    }
+    .grid-3 { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; }
+    @media (max-width:980px) { .grid-3 { grid-template-columns: 1fr; } }
+
+    .how-card {
+      padding:18px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
+      border:1px solid rgba(255,255,255,0.02);
+      transition: transform 260ms ease;
+    }
+    .how-card:hover { transform: translateY(-6px); }
+
+    .big {
+      font-size:18px;
+      font-weight:800;
+      margin-bottom:6px;
+    }
+    .muted { color:var(--muted); font-size:14px; }
+
+    /* Category tabs */
+    .tabs {
+      display:flex;
+      gap:10px;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    }
+    .tab {
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-weight:700;
+      transition: all 200ms ease;
+    }
+    .tab.active {
+      color:#00121a;
+      background: linear-gradient(90deg,var(--warm), var(--accent));
+      box-shadow: 0 10px 30px rgba(255,184,107,0.06);
+    }
+
+    .gallery {
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    .card-img { border-radius:10px; overflow:hidden; background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(255,255,255,0.02)); }
+    .card-img img { width:100%; height:200px; object-fit:cover; display:block; }
+
+    /* Benefits list */
+    .benefits { display:flex; gap:14px; flex-wrap:wrap; }
+    .benefit {
+      padding:14px;
+      border-radius:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      flex:1 1 220px;
+    }
+    .benefit .btitle { font-weight:800; margin-bottom:8px; }
+
+    /* Poll card */
+    .poll {
+      padding:18px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .option {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px;
+      border-radius:10px;
+      cursor:pointer;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      transition: transform 160ms ease, box-shadow 160ms;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .option:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.6); }
+    .bullet {
+      width:44px;
+      height:44px;
+      border-radius:10px;
+      background: linear-gradient(90deg,var(--accent), #66c0ff);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      color:#00121a;
+      box-shadow: 0 8px 24px rgba(0,211,255,0.06);
+    }
+    .barwrap { flex:1; background: rgba(255,255,255,0.03); border-radius:8px; overflow:hidden; height:12px; margin:0 12px; }
+    .bar { height:100%; width:0%; background: linear-gradient(90deg, var(--accent), var(--warm)); transition: width 900ms cubic-bezier(.2,.9,.2,1); }
+
+    .pct { min-width:72px; text-align:right; font-weight:800; }
+
+    /* Footer */
+    footer {
+      text-align:center;
+      color:var(--muted);
+      margin-top:6px;
+      font-size:14px;
+    }
+
+    /* small animations */
+    @keyframes floaty {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    .float { animation: floaty 6s ease-in-out infinite; }
+
+  </style>
+</head>
+<body>
+  <div class="site">
+
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <!-- Inline SVG logo: infinity loop + three bikes -->
+        <svg width="84" height="44" viewBox="0 0 300 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- soft infinity loop -->
+          <g opacity="0.12">
+            <path d="M20 60C20 20 110 0 150 36C190 72 280 56 280 20" stroke="#00d3ff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <!-- bikes simplified lines -->
+          <g transform="translate(10,10)" stroke="#e6f0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <circle cx="30" cy="74" r="12"></circle>
+            <circle cx="70" cy="74" r="12"></circle>
+            <path d="M34 66 L58 46 L72 46" />
+            <g transform="translate(80,3)">
+              <circle cx="30" cy="74" r="12"></circle>
+              <circle cx="70" cy="74" r="12"></circle>
+              <path d="M34 66 L58 46 L72 46" />
+            </g>
+            <g transform="translate(160,-2)">
+              <circle cx="30" cy="74" r="12"></circle>
+              <circle cx="70" cy="74" r="12"></circle>
+              <path d="M34 66 L58 46 L72 46" />
+            </g>
+          </g>
+        </svg>
+
+        <div>
+          <div class="title">LoopRides</div>
+          <div class="tag">10-year membership • Swap within category • 100-hour premium bonus</div>
+        </div>
+      </div>
+
+      <nav>
+        <button class="btn" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works</button>
+        <button class="btn" onclick="document.getElementById('cats').scrollIntoView({behavior:'smooth'})">Categories</button>
+        <button class="btn" onclick="document.getElementById('poll').scrollIntoView({behavior:'smooth'})">Give feedback</button>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <main class="hero card" role="main" aria-labelledby="mainHeading">
+      <div>
+        <h1 id="mainHeading" class="h-title">Drive freedom. Loop your ride.</h1>
+        <p class="h-sub">LoopRides provides a **10-year membership** that covers the equivalent cost of a vehicle—maintenance, servicing, insurance and breakdown support included. Swap across categories (Pro, Premium, Daily, Electric) anytime. Premium vehicles include a 100-hour bonus.</p>
+
+        <div class="cta-row">
+          <button class="cta-primary" onclick="alert('Join flow placeholder — contact support@looprides.example')">Join 10-Year Plan</button>
+          <button class="cta-ghost" onclick="document.getElementById('benefits').scrollIntoView({behavior:'smooth'})">See benefits</button>
+        </div>
+
+        <div class="hero-feats">
+          <div class="feat"><span class="dot"></span> Full category flexibility</div>
+          <div class="feat"><span class="dot"></span> Maintenance & servicing covered</div>
+          <div class="feat"><span class="dot"></span> 100-hour premium bonus</div>
+        </div>
+      </div>
+
+      <!-- visual column -->
+      <aside class="visual">
+        <!-- subtle animated infinite background -->
+        <svg class="infinite-bg" viewBox="0 0 900 360" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="lg" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#00d3ff"/>
+              <stop offset="1" stop-color="#ffb86b"/>
+            </linearGradient>
+          </defs>
+          <path d="M40 180 C 140 60, 380 60, 480 180 C 580 300, 820 300, 900 180" stroke="url(#lg)" stroke-width="80" stroke-linecap="round" fill="none" />
+        </svg>
+
+        <div class="images float" aria-hidden="true">
+          <!-- replace with your own images if needed -->
+          <img src="https://images.unsplash.com/photo-1515165562835-cb6ef0e1b66b?q=80&w=1200&auto=format&fit=crop&s=placeholder" alt="Scooter sample">
+          <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1200&auto=format&fit=crop&s=placeholder" alt="Motorbike sample">
+        </div>
+      </aside>
+    </main>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="card">
+      <h2>How it works</h2>
+      <div class="grid-3" style="margin-top:12px;">
+        <div class="how-card">
+          <div class="big">1. Join the 10-Year Membership</div>
+          <div class="muted">Sign up once and get access to vehicles covered for 10 years' worth of cost.</div>
+        </div>
+        <div class="how-card">
+          <div class="big">2. Choose category & vehicle</div>
+          <div class="muted">Select from Pro, Premium, Daily, or Electric categories. Swap within category whenever you want.</div>
+        </div>
+        <div class="how-card">
+          <div class="big">3. Enjoy maintenance-free riding</div>
+          <div class="muted">Service, insurance, and breakdowns are included — no surprise costs.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section id="benefits" class="card">
+      <h2>Benefits for members</h2>
+      <div class="benefits" style="margin-top:12px;">
+        <div class="benefit">
+          <div class="btitle">Full flexibility</div>
+          <div class="muted">Swap vehicles inside your category at will — keep your commute fresh.</div>
+        </div>
+        <div class="benefit">
+          <div class="btitle">All-inclusive coverage</div>
+          <div class="muted">Membership covers maintenance, servicing, insurance, and breakdown assistance for the covered period.</div>
+        </div>
+        <div class="benefit">
+          <div class="btitle">Premium bonus</div>
+          <div class="muted">Premium / villa-class vehicles include a 100-hour usage top-up for special occasions.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES / TABS -->
+    <section id="cats" class="card">
+      <h2>Vehicle Categories</h2>
+
+      <div class="tabs" role="tablist" aria-label="Vehicle categories">
+        <div class="tab active" data-tab="pro" role="tab" tabindex="0" aria-selected="true">Pro</div>
+        <div class="tab" data-tab="premium" role="tab" tabindex="0">Premium</div>
+        <div class="tab" data-tab="daily" role="tab" tabindex="0">Daily</div>
+        <div class="tab" data-tab="electric" role="tab" tabindex="0">Electric</div>
+      </div>
+
+      <div id="tabContent" style="margin-top:12px;">
+        <!-- content injected by JS -->
+      </div>
+    </section>
+
+    <!-- POLL -->
+    <section id="poll" class="poll card" aria-labelledby="pollHeading">
+      <h2 id="pollHeading">Did you like the LoopRides 10-Year membership idea?</h2>
+      <p class="muted">Vote once. Your vote is stored locally in your browser. You can change your vote later.</p>
+
+      <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
+        <!-- Options rendered by JS -->
+        <div id="optionsContainer"></div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+          <div class="muted" id="totalVotes">Total votes: 0</div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn" onclick="downloadResults()">Download results (JSON)</button>
+            <button class="btn" onclick="resetLocal()">Reset local votes</button>
+          </div>
+        </div>
+
+        <div style="margin-top:10px; color:var(--muted); font-size:13px;">
+          Tip: To collect global results, host this page online and connect a backend or Google Sheets — I can help with that.
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> LoopRides — contact: support@looprides.example
+    </footer>
+  </div>
+
+  <!-- --------------------------
+       JavaScript: Tabs + Polls
+       -------------------------- -->
+  <script>
+    /* ----------------------------
+       CATEGORY TAB DATA & RENDER
+       ---------------------------- */
+    const TABS = {
+      pro: {
+        title: 'Pro Category',
+        desc: 'High-performance two-wheelers for enthusiasts and city riders who want extra power and style.',
+        imgs: [
+          'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop&s=placeholder',
+          'https://images.unsplash.com/photo-1516627143509-37ef8f0f3fdf?q=80&w=1200&auto=format&fit=crop&s=placeholder'
+        ]
+      },
+      premium: {
+        title: 'Premium Category (Includes 100-hour bonus)',
+        desc: 'Luxury models and villa-class vehicles — premium comfort, top-up benefit of 100 bonus hours for special use.',
+        imgs: [
+          'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200&auto=format&fit=crop&s=placeholder',
+          'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop&s=placeholder'
+        ]
+      },
+      daily: {
+        title: 'Daily Category',
+        desc: 'Affordable, reliable vehicles for everyday commuting — economical and practical.',
+        imgs: [
+          'https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1200&auto=format&fit=crop&s=placeholder',
+          'https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=1200&auto=format&fit=crop&s=placeholder'
+        ]
+      },
+      electric: {
+        title: 'Electric Category',
+        desc: 'Eco-friendly electric scooters and bikes — modern, quiet, and low running cost.',
+        imgs: [
+          'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200&auto=format&fit=crop&s=placeholder',
+          'https://images.unsplash.com/photo-1563729784471-3f03bba2a5a1?q=80&w=1200&auto=format&fit=crop&s=placeholder'
+        ]
+      }
+    };
+
+    const tabElems = document.querySelectorAll('.tab');
+    const tabContent = document.getElementById('tabContent');
+
+    function renderTab(key) {
+      const data = TABS[key];
+      tabContent.innerHTML = `
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+          <div class="card-img">
+            <img src="${data.imgs[0]}" alt="${key} image 1">
+          </div>
+          <div>
+            <div style="font-weight:800; font-size:18px;">${data.title}</div>
+            <div class="muted" style="margin-top:8px;">${data.desc}</div>
+            <div style="margin-top:14px;" class="muted">Note: The membership covers the total 10-year equivalent cost of the vehicle — all inclusive.</div>
+            ${ key === 'premium' ? `<div style="margin-top:12px; padding:10px; border-radius:10px; background: linear-gradient(90deg,var(--warm), var(--accent)); color:#00121a; font-weight:800;">Premium bonus: 100-hour top-up for villa/premium vehicles</div>` : '' }
+          </div>
+        </div>
+      `;
+    }
+
+    tabElems.forEach(t => {
+      t.addEventListener('click', () => {
+        tabElems.forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        renderTab(t.dataset.tab);
+      });
+      t.addEventListener('keypress', (e) => { if (e.key === 'Enter') t.click(); });
+    });
+
+    // initial render
+    renderTab('pro');
+
+    /* ----------------------------
+       POLL: localStorage-backed votes
+       ---------------------------- */
+    const POLL_KEY = 'looprides_poll_v1';
+    const VOTED_KEY = 'looprides_poll_voted';
+    const OPTIONS = [
+      'Yes — brilliant idea',
+      'Good but needs tweaks',
+      'Not sure yet',
+      'No — not for me'
+    ];
+
+    // initialize storage if missing
+    function loadVotes() {
+      try {
+        const raw = localStorage.getItem(POLL_KEY);
+        if (!raw) {
+          const zero = OPTIONS.map(()=>0);
+          localStorage.setItem(POLL_KEY, JSON.stringify(zero));
+          return zero;
+        }
+        const arr = JSON.parse(raw);
+        if (!Array.isArray(arr) || arr.length !== OPTIONS.length) {
+          const zero = OPTIONS.map(()=>0);
+          localStorage.setItem(POLL_KEY, JSON.stringify(zero));
+          return zero;
+        }
+        return arr;
+      } catch(e) {
+        const zero = OPTIONS.map(()=>0);
+        localStorage.setItem(POLL_KEY, JSON.stringify(zero));
+        return zero;
+      }
+    }
+
+    function saveVotes(arr) {
+      localStorage.setItem(POLL_KEY, JSON.stringify(arr));
+    }
+
+    function renderPoll() {
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+      const votes = loadVotes();
+      const total = votes.reduce((a,b)=>a+b,0);
+      document.getElementById('totalVotes').textContent = 'Total votes: ' + total;
+
+      OPTIONS.forEach((label, idx) => {
+        const count = votes[idx] || 0;
+        const pct = total === 0 ? 0 : Math.round((count/total)*1000)/10;
+        const option = document.createElement('div');
+        option.className = 'option';
+        option.innerHTML = `
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="bullet">${idx+1}</div>
+            <div style="min-width:200px; font-weight:700;">${label}</div>
+            <div class="barwrap" aria-hidden="true"><div class="bar" style="width:${pct}%;"></div></div>
+          </div>
+          <div class="pct"><div style="font-weight:900">${pct}%</div><div style="font-size:12px; color:var(--muted)">${count}</div></div>
+        `;
+        option.onclick = () => handleVote(idx);
+        option.onkeypress = (e) => { if (e.key === 'Enter') handleVote(idx); };
+        container.appendChild(option);
+      });
+    }
+
+    function handleVote(index) {
+      const votes = loadVotes();
+      const prev = localStorage.getItem(VOTED_KEY);
+      if (prev === null) {
+        votes[index] = (votes[index]||0) + 1;
+        saveVotes(votes);
+        localStorage.setItem(VOTED_KEY, index);
+        renderPoll();
+        showToast('Thanks for voting — results updated!');
+      } else {
+        const p = Number(prev);
+        if (p === index) {
+          showToast('You already voted for this option. Choose a different option to change your vote.');
+          return;
+        }
+        // change vote
+        if (votes[p] && votes[p] > 0) votes[p] = votes[p] - 1;
+        votes[index] = (votes[index]||0) + 1;
+        saveVotes(votes);
+        localStorage.setItem(VOTED_KEY, index);
+        renderPoll();
+        showToast('Vote changed — updated results shown.');
+      }
+    }
+
+    function showToast(msg) {
+      const el = document.createElement('div');
+      el.textContent = msg;
+      el.style.position = 'fixed';
+      el.style.left = '50%';
+      el.style.transform = 'translateX(-50%)';
+      el.style.bottom = '28px';
+      el.style.background = 'linear-gradient(90deg, var(--accent), var(--warm))';
+      el.style.color = '#00121a';
+      el.style.padding = '10px 16px';
+      el.style.borderRadius = '10px';
+      el.style.fontWeight = '800';
+      el.style.zIndex = 9999;
+      el.style.boxShadow = '0 12px 30px rgba(0,0,0,0.6)';
+      document.body.appendChild(el);
+      setTimeout(()=> el.style.opacity = '0', 2200);
+      setTimeout(()=> el.remove(), 2600);
+    }
+
+    function resetLocal() {
+      if (!confirm('Reset local votes? This will clear votes stored in your browser.')) return;
+      localStorage.removeItem(POLL_KEY);
+      localStorage.removeItem(VOTED_KEY);
+      loadVotes();
+      renderPoll();
+      showToast('Local votes cleared.');
+    }
+
+    function downloadResults() {
+      const votes = loadVotes();
+      const payload = { timestamp: new Date().toISOString(), options: OPTIONS, votes };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'looprides_poll_results.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // init
+    (function init() {
+      renderPoll();
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+
+  </script>
+</body>
+</html>
